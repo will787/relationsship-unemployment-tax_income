@@ -8,17 +8,19 @@ import statsmodels.api as sm
 # getting variables
 
 import get_unemployment as un 
-import income_tax as tax
+import selic as tax
 
 tax_selic = tax.df_selic
 unemployment  = un.un_df
 
-tradeoff = pd.merge(tax_selic, unemployment)
-tradeoff = tradeoff[['date', 'month_y', 'selic', 'un_var_%']]
-tradeoff
+#print(f"Date minima: {tradeoff['date'].min()}")
+#print(f"Date máxima: {tradeoff['date'].max()}")
 
-print(f"Date minima: {tradeoff['date'].min()}")
-print(f"Date máxima: {tradeoff['date'].max()}")
+
+tradeoff = pd.merge(tax_selic, unemployment, on='date')
+tradeoff = tradeoff[['date', 'month_y_x','selic', 'un_var_%']]
+tradeoff = tradeoff.rename(columns={'month_y_x': 'month_y'})
+tradeoff
 # %% residuals plots
 
 sns.set_theme(style='whitegrid')
